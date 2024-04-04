@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 import mysql.connector
 from time import sleep
 from dotenv import load_dotenv
+from urllib.parse import urlparse
 import serial
 import requests
 import google.generativeai as genai
@@ -10,6 +11,7 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
+database_url = os.getenv('DATABASE_URL')
 app.secret_key = os.getenv('APP_SECRET_KEY', 'default_key')
 weather_api_key = os.getenv('WEATHER_KEY', 'default_key')
 genai.configure(api_key=os.getenv('GENAI_KEY'))
@@ -38,13 +40,18 @@ lat_long = {
     'maralal': [1.100000, 36.700000],
 }
 
+parsed_url = urlparse(database_url)
+db_user = parsed_url.username
+db_password = parsed_url.password
+db_host = parsed_url.hostname
+db_name = parsed_url.path[1:] 
 
 # Database connection
 db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="root",
-    database="majismart"
+    host=db_host,
+    user=db_user,
+    password=db_password,
+    database=db_name
 )
 
 
@@ -68,7 +75,7 @@ def register():
             return redirect(url_for('register'))
 
         cursor = db.cursor(buffered=True)
-        cursor.execute('INSERT INTO Users (Username, Email, PasswordHash) VALUES (%s, %s, %s)', (username, email, password))
+        cursor.execute('INSERT INTO users (Username, Email, PasswordHash) VALUES (%s, %s, %s)', (username, email, password))
         db.commit()
         cursor.close()
 
@@ -83,13 +90,13 @@ def login():
         password = request.form['password']
         
         cursor = db.cursor(buffered=True)
-        cursor.execute('SELECT * FROM Users WHERE Username = %s', (username,))
+        cursor.execute('SELECT * FROM users WHERE Username = %s', (username,))
         user = cursor.fetchone()
         cursor.close()
 
         if user:
             cursor2 = db.cursor(buffered=True)
-            cursor2.execute('SELECT Name FROM Farms WHERE UserID = %s', (user[0],))
+            cursor2.execute('SELECT Name FROM farms WHERE UserID = %s', (user[0],))
             farm = cursor2.fetchone()
             session['loggedin'] = True
             session['username'] = user[1]
@@ -188,7 +195,7 @@ def ai_recommendation_content():
 def settings_content():
     # Load settings data here
     db.rollback() 
-    sql = 'SELECT * FROM Farms WHERE UserID = %s'
+    sql = 'SELECT * FROM farms WHERE UserID = %s'
     cursor = db.cursor(dictionary=True, buffered=True)
     cursor.execute(sql, (session['userID'],))
     farms = cursor.fetchall()
@@ -207,7 +214,7 @@ def delete_farm(farmID):
     if request.method == 'POST':
         return delete_farm(farmID)
     cursor = db.cursor(buffered=True)
-    cursor.execute('DELETE FROM Farms WHERE FarmID = %s', (farmID,))
+    cursor.execute('DELETE FROM farms WHERE FarmID = %s', (farmID,))
     db.commit()
     cursor.close()
     return redirect(url_for('home'))
@@ -220,7 +227,7 @@ def add_farm():
     farm_acre = request.form['acres']
     try:
         cursor = db.cursor(buffered=True)
-        cursor.execute('INSERT INTO Farms (UserID, Name, Location, Acreage) VALUES (%s, %s, %s, %s)', (session['userID'], farm_name, farm_location, farm_acre))
+        cursor.execute('INSERT INTO farms (UserID, Name, Location, Acreage) VALUES (%s, %s, %s, %s)', (session['userID'], farm_name, farm_location, farm_acre))
         db.commit()
         cursor.close()
         return redirect(url_for('home'))
@@ -233,7 +240,7 @@ def get_farms(userID):
     db.rollback() 
     try:
         cursor = db.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM Farms WHERE UserID = %s', (userID,))
+        cursor.execute('SELECT * FROM farms WHERE UserID = %s', (userID,))
         farms = cursor.fetchall()
         cursor.close()
         return farms
@@ -250,7 +257,7 @@ def add_crops():
     crop_harvest_date = request.form['harvestDate'] if request.form['harvestDate'] else None
 
     cursor = db.cursor(buffered=True)
-    cursor.execute('INSERT INTO Crops (FarmID, CropType, PlantingDate, HarvestDate) VALUES (%s, %s, %s, %s)', (farm_ID, crop_name, crop_plant_date, crop_harvest_date))
+    cursor.execute('INSERT INTO crops (FarmID, CropType, PlantingDate, HarvestDate) VALUES (%s, %s, %s, %s)', (farm_ID, crop_name, crop_plant_date, crop_harvest_date))
     db.commit()
     cursor.close()
     return redirect(url_for('home'))
@@ -267,7 +274,7 @@ def get_soil_moisture():
 
 def fetch_farms(userID):
     cursor = db.cursor(dictionary=True, buffered=True)
-    cursor.execute('SELECT * FROM Farms WHERE UserID = %s', (userID,))
+    cursor.execute('SELECT * FROM farms WHERE UserID = %s', (userID,))
     farms = cursor.fetchall()
     cursor.close()
     return farms
@@ -277,12 +284,12 @@ def fetch_crop(userID):
     db.rollback()
     try:
         cursor = db.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM Farms WHERE UserID = %s', (userID,))
+        cursor.execute('SELECT * FROM farms WHERE UserID = %s', (userID,))
         farms = cursor.fetchone()
         cursor.close()
         farmID = farms['FarmID']
         cursor1 = db.cursor(dictionary=True)
-        cursor1.execute('SELECT * FROM Crops WHERE FarmID = %s', (farmID,))
+        cursor1.execute('SELECT * FROM crops WHERE FarmID = %s', (farmID,))
         crops = cursor1.fetchone()
         cursor1.close()
         return crops['CropType']
