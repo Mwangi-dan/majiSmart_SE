@@ -1,0 +1,92 @@
+<h1>Settings</h1>
+<div class="farms">
+  <h3>Farms</h3>
+  {% if farms %} {% for farm in farms %}
+  <div class="farm-name">
+    <h5>
+      {{ farm.Name }} - {{ farm.Location }} - {{ farm.Acreage }} acres
+      <a href="/delete-farm/{{ farm.FarmID }}">Delete</a>
+    </h5>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p>No farms added yet.</p>
+{% endif %}
+
+<div class="forms">
+  <div class="form">
+    <h3>Add Farm</h3>
+    <form action="/add-farm" method="POST">
+      <div class="form-group">
+        <label for="farmName"></label>
+        <input
+          type="text"
+          name="farmName"
+          id="farmName"
+          placeholder="Farm Name"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="location"></label>
+        <input
+          type="text"
+          name="location"
+          id="location"
+          placeholder="Location"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="acres"></label>
+        <input
+          type="text"
+          name="acres"
+          id="acres"
+          placeholder="Acres"
+          required
+        />
+      </div>
+      <button type="submit">Add Farm</button>
+    </form>
+  </div>
+
+  <div class="form">
+    <h3>Add Crops in Farms</h3>
+    <form action="/add-crops" method="POST">
+      <div class="form-group">
+        <select name="farms">
+          <option value="" disabled selected>Select Farm</option>
+          {% for farm in farms %}
+          <option value="{{ farm.FarmID }}">{{ farm.Name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="crop"></label>
+        <input type="text" name="crop" id="crop" placeholder="Crop" required />
+      </div>
+      <div class="form-group">
+        <label for="plantDate" style="font-size: 0.6rem">Plant Date</label>
+        <input
+          type="date"
+          name="plantDate"
+          id="plantDate"
+          placeholder="Plant Date"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="harvestDate" style="font-size: 0.6rem">Harvest Date</label>
+        <input
+          type="date"
+          name="harvestDate"
+          id="harvestDate"
+          placeholder="Harvest Date"
+        />
+      </div>
+      <button type="submit">Add Crop</button>
+    </form>
+  </div>
+</div>

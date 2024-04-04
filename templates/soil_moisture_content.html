@@ -1,0 +1,24 @@
+<h2>Soil Moisture Content Page</h2>
+
+<div class="container">
+  <div class="bx">
+    <h3>How to read using sensor</h3>
+    <p>
+      Plug in the arduino board to the computer and refresh the page if you do
+      not see a reading immediately
+    </p>
+
+    <h4>Key</h4>
+    <p>0% : <span>No Moisture at all</span></p>
+    <p>1% - 10% : <span>Little Moisture</span></p>
+    <p>10% - 30% : <span>Moderate Moisture</span></p>
+    <p>30% - 70% : <span>Adequate Moisture</span></p>
+    <p>70% - 100% : <span>Excess Moisture</span></p>
+  </div>
+  <div class="bx">
+    <p id="soil-moisture">
+      {% if soil_moisture != None %} {{ soil_moisture }}% {% else %} No data {%
+      endif %}
+    </p>
+  </div>
+</div>

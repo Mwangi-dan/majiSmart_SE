@@ -1,0 +1,81 @@
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-image: url("images/login_bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+  padding: 2rem;
+  border-radius: 2rem;
+  margin: 5rem auto;
+  height: 100%;
+  backdrop-filter: blur(10px);
+}
+
+.container a {
+  text-decoration: none;
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.container ul li {
+  list-style: none;
+  color: red;
+  text-align: center;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.form-group input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+}
+
+button {
+  padding: 0.5rem;
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+}
+
+.form-group input[type="checkbox"] {
+  width: auto;
+  margin-right: 0.5rem;
+  position: relative;
+  top: 0.5rem;
+  left: -6rem;
+}
+
+label[for="remember"] {
+  font-size: 0.9rem;
+  position: relative;
+  top: -0.7rem;
+  left: 1rem;
+}
+
+.forgot-pass {
+  text-align: right;
+  font-size: 0.8em;
+  position: relative;
+  top: -1.7rem;
+}

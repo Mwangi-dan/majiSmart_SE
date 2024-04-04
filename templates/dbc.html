@@ -1,0 +1,32 @@
+<h2>Welcome back, {{ username }}</h2>
+<div class="container">
+  {% if farms %} {% for farm in farms %}
+  <div class="box">
+    <h3>{{ farm.Name }}</h3>
+    <p>Location: {{ farm.Location }}</p>
+  </div>
+  {% endfor %} {% else %}
+  <p>
+    No farms added yet. Go to
+    <a href="#" onclick="loadContent('settings-content')">settings</a> to add
+    your farm(s)
+  </p>
+  {% endif %}
+</div>
+
+<div class="container">
+  <div class="box">
+    <h3>Soil Moisture</h3>
+    <p>
+      <a href="#" onclick="loadContent('soil-moisture-content')">Click</a> to go
+      to soil moisture page
+    </p>
+  </div>
+  <div class="box">
+    <h3>Weather Forecast</h3>
+    <p>
+      {% if weather_forecast != None %} {{ weather_forecast }} {% else %} No
+      data {%- endif %}
+    </p>
+  </div>
+</div>

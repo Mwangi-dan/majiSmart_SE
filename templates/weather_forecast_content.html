@@ -1,0 +1,49 @@
+<h2>Weather forecast content</h2>
+<form method="POST" action="/weather-forecast-content" class="w-form">
+  <label for="city">
+    <input type="text" name="city" id="city" placeholder="City" required />
+  </label>
+  <button type="submit" onclick="loadContent('weather-forecast-content')">
+    Get Weather
+  </button>
+</form>
+
+<div class="weather" id="content-w">
+  {% if data %}
+  <h3>{{ data['name'] }}</h3>
+  <p>Temperature: {{ data['main'].temp }}°C</p>
+  <p>Humidity: {{ data['main'].humidity }}%</p>
+  <p>Description: {{ data['weather'][0].description }}</p>
+  {% endif %}
+</div>
+
+<p><a href="/">&times</a></p>
+
+<script>
+  document
+    .getElementById("weatherForm")
+    .addEventListener("submit", function (event) {
+      event.preventDefault();
+      const city = document.getElementById("city").value;
+      fetch("/weather-forecast-content", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: "city=" + encodeURIComponent(city),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          const contentW = document.getElementById("content-w");
+          if (data && data.name) {
+            contentW.innerHTML = `
+                  <h3>${data.name}</h3>
+                  <p>Temperature: ${data.main.temp}°C</p>
+                  <p>Humidity: ${data.main.humidity}%</p>
+                  <p>Description: ${data.weather[0].description}</p>
+              `;
+          }
+        })
+        .catch((error) => console.error("Error:", error));
+    });
+</script>

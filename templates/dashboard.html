@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Majismart Dashboard</title>
+    <link rel="stylesheet" href="../static/dash.css" />
+  </head>
+  <body>
+    <div class="navbar">
+      <a href="/">Home</a>
+      <a href="/logout">Logout</a>
+    </div>
+    <div class="main-content">
+      <div class="sidebar">
+        <a href="#" onclick="loadContent('dashboard-content')"> Dashboard </a>
+        <a href="#" onclick="loadContent('soil-moisture-content')"
+          >Soil Moisture Data</a
+        >
+        <a href="#" onclick="loadContent('weather-forecast-content')"
+          >Weather Forecast</a
+        >
+        <a href="#" onclick="loadContent('ai-recommendation-content')"
+          >AI Recommendation</a
+        >
+        <a href="#" onclick="loadContent('settings-content')">Settings</a>
+      </div>
+      <div class="content" id="content">
+        <h2>Welcome back, {{ username }}</h2>
+        <p>
+          This is your dashborad where you can monitor the soil moisture using
+          your sensors and get weather forecast and AI recommendations
+        </p>
+        <p>You could also choose to keep track of your farms</p>
+        <div class="container">
+          <h4>How to use:</h4>
+          <p>
+            Interact with the menu on the side panel to access more of the
+            website's functionality
+          </p>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <p>&copy; 2024 Majismart</p>
+    </footer>
+    <script src="../static/script.js"></script>
+  </body>
+</html>
