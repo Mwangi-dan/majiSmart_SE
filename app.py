@@ -66,7 +66,7 @@ def register():
     if request.method == 'POST':
         username = (request.form['firstName'] + request.form['lastName']).lower()
         email = request.form['email']
-        password = request.form['password']  # Hashing should be done here
+        password = request.form['password'] 
         password2 = request.form['password2']
         location = request.form['location']
 
