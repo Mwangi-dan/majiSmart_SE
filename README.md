@@ -62,8 +62,3 @@ Video Demo: `https://youtu.be/aF30xOeUq1A`
 ## Authors
 
 - [Daniel Ndungu](https://github.com/Mwangi-dan)
-
-```
-
-
-```
