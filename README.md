@@ -34,7 +34,7 @@ MajiSmart is a web-based solution designed to monitor soil moisture levels, util
 
 1. Launch the Flask web server: python app.py
 2. Access the web interface at `http://localhost:5000` (or the configured port).
-3. You can also directly use the system from the web interface. `vhttps://majismart-76ffe1c075ee.herokuapp.com/`
+3. You can also directly use the system from the web interface. `https://majismart-76ffe1c075ee.herokuapp.com/`
 
 ## Hardware Setup
 
@@ -57,7 +57,7 @@ For support or queries, contact [d.ndungu@alustudent.com](mailto:d.ndungu@gmail.
 
 A live demo of MajiSmart can be accessed at [Link to live web interface](https://majismart-76ffe1c075ee.herokuapp.com/).
 
-Video Demo: [Link to video demo](#)
+Video Demo: `https://youtu.be/aF30xOeUq1A`
 
 ## Authors
 
