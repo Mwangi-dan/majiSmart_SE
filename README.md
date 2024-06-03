@@ -41,14 +41,6 @@ MajiSmart is a web-based solution designed to monitor soil moisture levels, util
 - Connect the soil moisture sensor to the Arduino according to the provided schematics.
 - Upload the sensor data collection code to the Arduino.
 
-## Contributing
-
-We welcome contributions to MajiSmart! Please read our contributing guidelines before submitting pull requests.
-
-## License
-
-MajiSmart is open-sourced under the MIT License. See the LICENSE file for more details.
-
 ## Contact
 
 For support or queries, contact [d.ndungu@alustudent.com](mailto:d.ndungu@gmail.com).
